@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Test</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+	<h1>Test results</h1>
+
+	<!-- testing framework can load in any order, as long as it is before the test suite file -->
+	<script src="./testingFramework.js"></script>
+	<!-- required libraries -->
+	<script src="../src/scripts/utils.js"></script>
+	<script src="../src/scripts/potatoPhysicsEngine.js"></script>
+	<script src="../src/scripts/vector.js"></script>
+	<script src="../src/scripts/renderer.js"></script>
+	<script src="../src/scripts/templates.js"></script>
+	<script src="../src/scripts/compiler.js"></script>
+	<script src="../src/scripts/virtualFileSystem.js"></script>
+	<!-- test suites -->
+	<script src="./tests.js"></script>
+</body>
+</html>

@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<!--  *	MIT License
+ *	
+ *	Copyright (c) 2021 Joshua Usi
+ *	
+ *	Permission is hereby granted, free of charge, to any person obtaining a copy
+ *	of this software and associated documentation files (the "Software"), to deal
+ *	in the Software without restriction, including without limitation the rights
+ *	to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ *	copies of the Software, and to permit persons to whom the Software is
+ *	furnished to do so, subject to the following conditions:
+ *	
+ *	The above copyright notice and this permission notice shall be included in all
+ *	copies or substantial portions of the Software.
+ *	
+ *	THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ *	IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ *	FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ *	AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ *	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ *	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ *	SOFTWARE. -->
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title class="version-number">Crescendo</title>
+		<link rel="icon" href="./src/images/crescendo-logo.png">
+		<link rel="stylesheet" type="text/css" href="style.css">
+		<link rel="stylesheet" type="text/css" href="./src/stylesheets/themes.css">
+	</head>
+	<body id="body" class="theme-background">
+		<div id="page-state-loading-screen" class="theme-background">
+			<img id="loading-screen-image" src="./src/images/crescendo-logo.png">
+			<p id="loading-screen-text"><span class="version-number"></span> is now loading</p>
+			<p>Give it a moment, it should not take long</p>
+		</div>
+		<div id="page-state-editor" class="theme-background">
+			<div id="main-bar" class="theme-background-variant theme-background-variant-2">
+				<img id="main-bar-logo" src="./src/images/crescendo-logo.png">
+				<span data-tooltip="Click to rename your project" id="project-name" contenteditable></span>
+			</div>
+			<div id="sub-bar" class="theme-background-variant theme-background-variant-2">
+				<span class="tab-buttons" id="save-project">
+					<img src="./src/images/save-icon.png" class="tab-buttons">
+					<span data-tooltip="Save your project to the local database">Save</span>
+				</span>
+				<span class="tab-buttons" id="download-project">
+					<img src="./src/images/save-icon.png" class="tab-buttons">
+					<span data-tooltip="Download project files to your computer">Download</span>
+				</span>
+				<span class="tab-buttons" id="load-project">
+					<img src="./src/images/load-icon.png" class="tab-buttons">
+					<span data-tooltip="Load a project from the local database">Load</span>
+				</span>
+				<span class="tab-buttons" id="project-settings">
+					<img src="./src/images/settings-icon.png" class="tab-buttons">
+					<span data-tooltip="Edit project properties">Settings</span>
+				</span>
+				<span class="tab-buttons" id="project-compile">
+					<img src="./src/images/compile-icon.png" class="tab-buttons">
+					<span data-tooltip="Export your project as a playable game">Compile</span>
+				</span>
+				<span class="tab-buttons" id="help" onclick="window.open('./documentation/user manual raw/USER MANUAL.html')">
+					<img src="./src/images/help-icon.png" class="tab-buttons">
+					<span data-tooltip="Get help about application features">Help</span>
+				</span>
+			</div>
+			<div id="editor-canvas" class="theme-background-variant theme-background-variant-2">
+				<div class="editor-tabs">
+					<span>Canvas</span>
+					<img data-tooltip="Play / pause" src="./src/images/play.png" class="tab-buttons" id="pause-editor">
+					<img data-tooltip="Enter / exit full screen" src="./src/images/enter-fullscreen.png" class="tab-buttons" id="fullscreen-toggle">
+					<img data-tooltip="Rewind application to the beginning" src="./src/images/rewind.png" class="tab-buttons" id="initialise-application">
+					<img data-tooltip="Advance one frame" src="./src/images/advance-one-frame.png" class="tab-buttons" id="advance-one-frame">
+				</div>
+				<canvas id="editor-canvas-element" class="theme-background-variant-3"></canvas>
+			</div>
+			<div id="editor-console" class="theme-background-variant">
+				<div class="editor-tabs theme-background-variant-2">Console</div>
+				<div class="editor-pane" id="editor-console-cursor"></div>
+			</div>
+			<div id="editor-assets" class="assets theme-background-variant">
+				<div class="editor-tabs theme-background-variant-2">
+					<span>Assets</span>
+					<img data-tooltip="Add assets" src="./src/images/plus.png" class="tab-buttons" id="add-new-file" onclick="document.getElementById('upload-file').click();">
+					<img data-tooltip="View assets" src="./src/images/file-icon.png" class="tab-buttons" id="open-file-viewer">
+					<input type="file" id="upload-file" style="display: none;" multiple>
+				</div>
+				<div class="editor-pane" id="asset-overview"></div>
+			</div>
+			<div id="editor-hierarchy" class="theme-background-variant">
+				<div class="editor-tabs theme-background-variant-2">
+					<span>Hierarchy</span>
+					<img data-tooltip="Add gameobject" src="./src/images/plus.png" class="tab-buttons" id="create-new-gameobject">
+					<img data-tooltip="Refresh hierarchy manually" src="./src/images/refresh.png" class="tab-buttons" id="refresh-hierarchy">
+				</div>
+				<div class="editor-pane" id="editor-hierarchy-pane">
+				</div>
+			</div>
+			<div id="editor-component-editor" class="theme-background-variant">
+				<div class="editor-tabs-smaller theme-background-variant-2">Component Editor</div>
+				<div class="editor-pane">
+					<!-- template for transforms -->
+					<div class="component-editor window-no-style" id="transform-editor">
+						<a href="javascript:void(0)" id="transform-delete" data-tooltip="Delete this component from the project" class="delete-component close-window">&times;</a>
+						<div data-tooltip="Where the gameobject is" class="component-editor-component-name">Transform</div>
+						<div class="component-editor-values">
+							<div class="fixed-height">
+								<span>Position</span>
+								<span class="component-ui">
+									<label>X</label>
+									<input id="transform_x" type="number" value="0" class="short-text-area">
+									<label>Y</label>
+									<input id="transform_y" type="number" value="0" class="short-text-area">
+								</span>
+							</div>
+							<div class="fixed-height">
+								<span>Scale</span>
+								<span class="component-ui">
+									<label>X</label>
+									<input id="transform_scale-x" type="number" value="50" class="short-text-area" min="0">
+									<label>Y</label>
+									<input id="transform_scale-y" type="number" value="50" class="short-text-area" min="0">
+								</span>
+							</div>
+							<div class="fixed-height">
+								<span>Rotation</span>
+								<span class="component-ui" style="position: relative; left: 1.05em">
+									<input id="transform_rotation" type="number" value="0" step="0.1" class="short-text-area">
+									<label>Radians</label>
+								</span>
+							</div>
+							<div class="fixed-height">
+								<span data-tooltip="Fixes the object to be unaffected by the camera">Fixed Position</span>
+								<span class="component-ui" style="position: relative; left: 0.8em;">
+									<input id="transform_fixed-on-screen" type="checkbox">
+								</span>
+							</div>
+						</div>
+					</div>
+					<!-- template for renderers -->
+					<div class="component-editor window-no-style" id="renderer-editor">
+						<a href="javascript:void(0)" id="renderer-delete" data-tooltip="Delete this component from the project" class="delete-component close-window">&times;</a>
+						<div data-tooltip="How the gameobject looks" class="component-editor-component-name">Renderer</div>
+						<div class="component-editor-values">
+							<div class="fixed-height">
+								<span>Type</span>
+								<span class="component-ui">
+									<div id="renderer_type" class="select-box">
+										<select>
+											<option value="0">Not set</option>
+											<option value="1">mesh</option>
+											<option value="2">text</option>
+											<option value="3">line</option>
+										</select>
+									</div>
+								</span>
+							</div>
+							<div class="fixed-height">
+								<span>Text</span>
+								<span class="component-ui">
+									<img data-tooltip="Open in the text editor" src="./src/images/text-icon.png" class="open-text-editor" id="renderer_text-text">
+								<input id="renderer_text" class="wide-text-area" type="text" value="Sample Text">
+								</span>
+							</div>
+							<div class="fixed-height">
+								<span>Font</span>
+								<span class="component-ui">
+									<div id="renderer_font" class="select-box">
+										<select>
+											<option value="0">Not set</option>
+											<option value="1">Arial</option>
+											<option value="2">Verdana</option>
+											<option value="3">Helvetica</option>
+											<option value="4">Times New Roman</option>
+											<option value="5">Georgia</option>
+											<option value="6">Courier New</option>
+										</select>
+									</div>
+								</span>
+							</div>
+							<div class="fixed-height">
+								<span>Size</span>
+								<span class="component-ui">
+								<input id="renderer_size" type="number" value="1" min="0" class="wide-text-area">
+								<label>px</label>
+								</span>
+							</div>
+							<div class="fixed-height">
+								<span>Style</span>
+								<span class="component-ui">
+									<div id="renderer_style" class="select-box">
+										<select>
+											<option value="0">Not set</option>
+											<option value="1">normal</option>
+											<option value="2">italic</option>
+										</select>
+									</div>
+								</span>
+							</div>
+							<div class="fixed-height">
+								<span>Variant</span>
+								<span class="component-ui">
+									<div id="renderer_variant" class="select-box">
+										<select>
+											<option value="0">Not set</option>
+											<option value="1">normal</option>
+											<option value="2">small-caps</option>
+										</select>
+									</div>
+								</span>
+							</div>
+							<div class="fixed-height">
+								<span>Weight</span>
+								<span class="component-ui">
+									<div id="renderer_weight" class="select-box">
+										<select>
+											<option value="0">Not set</option>
+											<option value="1">normal</option>
+											<option value="2">bold</option>
+											<option value="3">bolder</option>
+											<option value="4">lighter</option>
+										</select>
+									</div>
+								</span>
+							</div>
+							<div class="fixed-height">
+								<span>Alignment</span>
+								<span class="component-ui">
+									<div id="renderer_alignment" class="select-box">
+										<select>
+											<option value="0">Not set</option>
+											<option value="1">left</option>
+											<option value="2">center</option>
+											<option value="3">right</option>
+										</select>
+									</div>
+								</span>
+							</div>
+							<div class="fixed-height">
+								<span>Shape</span>
+								<span class="component-ui">
+									<div id="renderer_shape" class="select-box">
+										<select>
+											<option value="0">Not set</option>
+											<option value="1">rectangle</option>
+											<option value="2">circle</option>
+										</select>
+									</div>
+								</span>
+							</div>
+							<div class="fixed-height">
+								<span>Texture</span>
+								<span class="component-ui">
+									<img data-tooltip="Choose a file to use" src="./src/images/default-file-icon.png" class="open-file-viewer">
+									<div id="renderer_texture" class="component-texture-display" style="background-image: url('./src/images/null-texture.png');"></div>
+								</span>
+							</div>
+							<div class="fixed-height">
+								<span>Fill colour</span>
+								<span class="component-ui">
+									<img data-tooltip="Choose a colour in the colour picker" src="./src/images/dropper.png" class="dropper" id="renderer_fill-colour-dropper">
+									<div id="renderer_fill-colour" class="component-colour-display" style="background: #cfe2f3;"></div>
+								</span>
+							</div>
+							<div class="fixed-height">
+								<span>Outline colour</span>
+								<span class="component-ui">
+									<img data-tooltip="Choose a colour in the colour picker" src="./src/images/dropper.png" class="dropper" id="renderer_stroke-colour-dropper">
+									<div id="renderer_stroke-colour" class="component-colour-display" style="background: #171717;"></div>
+								</span>
+							</div>
+							<div class="fixed-height">
+								<span>Outline width</span>
+								<span class="component-ui">
+								<input id="renderer_stroke-width" type="number" value="1" class="wide-text-area" min="0">
+								<label>px</label>
+								</span>
+							</div>
+							<div class="fixed-height">
+								<span>Opacity</span>
+								<span class="component-ui">
+								<input id="renderer_opacity" type="number" value="1" class="wide-text-area" min="0" max="1" step="0.1">
+								</span>
+							</div>
+							<div class="fixed-height">
+								<span data-tooltip="Used to stretch or shrink textures to fit">Texture scale x</span>
+								<span class="component-ui">
+								<input id="renderer_texture-scale-x" type="number" value="0" min="0" step="0.1">
+								</span>
+							</div>
+							<div class="fixed-height">
+								<span data-tooltip="Used to stretch or shrink textures to fit">Texture scale y</span>
+								<span class="component-ui">
+								<input id="renderer_texture-scale-y" type="number" value="0" min="0" step="0.1">
+								</span>
+							</div>
+							<div class="fixed-height">
+								<span>Line cap</span>
+								<span class="component-ui">
+									<div id="renderer_line-cap" class="select-box">
+										<select>
+											<option value="0">Not set</option>
+											<option value="1">butt</option>
+											<option value="2">square</option>
+											<option value="3">round</option>
+										</select>
+									</div>
+								</span>
+							</div>
+							<div class="fixed-height">
+								<span>Line join</span>
+								<span class="component-ui">
+									<div id="renderer_line-join" class="select-box">
+										<select>
+											<option value="0">Not set</option>
+											<option value="1">miter</option>
+											<option value="2">round</option>
+											<option value="3">bevel</option>
+										</select>
+									</div>
+								</span>
+							</div>
+							<div class="fixed-height">
+								<span>Fill inside</span>
+								<span class="component-ui" style="position: relative; left: 0.8em;">
+									<input id="renderer_fill" type="checkbox">
+								</span>
+							</div>
+							<div class="fixed-height">
+								<span>Z-index</span>
+								<span class="component-ui">
+								<input id="renderer_z-index" type="number" value="0">
+								</span>
+							</div>
+						</div>
+					</div>
+					<!-- template for rigidbodies -->
+					<div class="component-editor window-no-style" id="rigidbody-editor">
+						<a href="javascript:void(0)" id="rigidbody-delete" data-tooltip="Delete this component from the project" class="delete-component close-window">&times;</a>
+						<div data-tooltip="How the object moves" class="component-editor-component-name">Rigidbody</div>
+						<div class="component-editor-values">
+							<div class="fixed-height">
+								<span>Type</span>
+								<span class="component-ui">
+									<div id="rigidbody_type" class="select-box">
+										<select>
+											<option value="0">Not set</option>
+											<option value="1">circle</option>
+											<option value="2">rectangle</option>
+											<option value="3">line</option>
+										</select>
+									</div>
+								</span>
+							</div>
+							<div class="fixed-height">
+								<span>X velocity</span>
+								<span class="component-ui">
+									<input id="rigidbody_velocity-x" type="number" value="0" class="medium-text-area">
+									<label>ms<sup>-1</sup></label>
+								</span>
+							</div>
+							<div class="fixed-height">
+								<span>Y velocity</span>
+								<span class="component-ui">
+									<input id="rigidbody_velocity-y" type="number" value="0" class="medium-text-area">
+									<label>ms<sup>-1</sup></label>
+								</span>
+							</div>
+							<div class="fixed-height">
+								<span>X acceleration</span>
+								<span class="component-ui">
+									<input id="rigidbody_acceleration-x" type="number" value="0" class="medium-text-area">
+									<label>ms<sup>-2</sup></label>
+								</span>
+							</div>
+							<div class="fixed-height">
+								<span>Y acceleration</span>
+								<span class="component-ui">
+									<input id="rigidbody_acceleration-y" type="number" value="9.8" class="medium-text-area">
+									<label>ms<sup>-2</sup></label>
+								</span>
+							</div>
+							<div class="fixed-height">
+								<span>Size</span>
+								<span class="component-ui">
+									<input id="rigidbody_size" type="number" value="0" min="0" class="medium-text-area">
+								</span>
+							</div>
+							<div class="fixed-height">
+								<span>Width</span>
+								<span class="component-ui">
+									<input id="rigidbody_size-x" type="number" value="0" min="0" class="medium-text-area">
+								</span>
+							</div>
+							<div class="fixed-height">
+								<span>Height</span>
+								<span class="component-ui">
+									<input id="rigidbody_size-y" type="number" value="0" min="0" class="medium-text-area">
+								</span>
+							</div>
+							<div class="fixed-height">
+								<span>Density</span>
+								<span class="component-ui">
+									<input id="rigidbody_density" type="number" value="0" class="medium-text-area">
+									<label>kgu<sup>-1</sup></label>
+								</span>
+							</div>
+							<div class="fixed-height">
+								<span data-tooltip="How bouncy the object is">Restitution</span>
+								<span class="component-ui">
+									<input id="rigidbody_restitution" type="number" value="0" min="0" max="1" step="0.1" class="medium-text-area">
+								</span>
+							</div>
+							<div class="fixed-height">
+								<span>Surface Friction</span>
+								<span class="component-ui">
+									<input id="rigidbody_surface-friction" type="number" value="0" min="0" max="1" step="0.01" class="medium-text-area">
+								</span>
+							</div>
+							<div class="fixed-height">
+								<span data-tooltip="Specifies if the body is expected to collide with other objects">Collides?</span>
+								<span class="component-ui" style="position: relative; left: 0.8em;">
+								<input id="rigidbody_is-colliding" type="checkbox" checked>
+								</span>
+							</div>
+							<div class="fixed-height">
+								<span data-tooltip="Body doesnt experience movement or collision impulses">Static body</span>
+								<span class="component-ui" style="position: relative; left: 0.8em;">
+								<input id="rigidbody_is-static" type="checkbox">
+								</span>
+							</div>
+						</div>
+					</div>
+					<!-- behaviour window -->
+					<div class="component-editor window-no-style" id="behaviour-script-editor">
+						<a href="javascript:void(0)" id="behaviour-script-delete" data-tooltip="Delete this component from the project" class="delete-component close-window">&times;</a>
+						<div data-tooltip="How the object behaves" class="component-editor-component-name">Script Behaviour</div>
+						<div class="component-editor-values">
+							<div class="fixed-height">
+								<span>Script</span>
+								<span class="component-ui">
+									<img data-tooltip="Open in the text editor" src="./src/images/text-icon.png" class="open-text-editor" id="behaviour_script-text">
+								<input id="behaviour-script_script" class="wide-text-area" type="text" value="null">
+								</span>
+							</div>
+						</div>
+					</div>
+					<!-- template for lines -->
+					<div class="component-editor window-no-style" id="line-editor">
+						<a href="javascript:void(0)" id="line-delete" data-tooltip="Delete this component from the project" class="delete-component close-window">&times;</a>
+						<div data-tooltip="Data for line values" class="component-editor-component-name">Line</div>
+						<div class="component-editor-values">
+							<div class="fixed-height">
+								<span>Points</span>
+								<span class="component-ui">
+									<img data-tooltip="Open the line editor to edit this lines properties" src="./src/images/line-icon.png" class="open-line-editor">
+									<input id="line_points" class="wide-text-area" type="text" value="null">
+								</span>
+							</div>
+							<div class="fixed-height">
+								<span>Connect ends</span>
+								<span class="component-ui" style="position: relative; left: 0.8em;">
+									<input id="line_connect-ends" type="checkbox">
+								</span>
+							</div>
+						</div>
+					</div>
+					<button data-tooltip="Add a component to this gameobject" id="add-component">Add component</button>
+				</div>
+			</div>
+		</div>
+		<div id="page-state-windows">
+			<!-- colour picker windows -->
+			<div id="colour-picker-window" class="draggable-element window">
+				<div class="draggable-element-header">
+					<span>Colour Picker</span>
+					<a href="javascript:void(0)" class="close-window">&times;</a>
+				</div>
+				<div class="colour-picker-grid window-body">
+					<div class="colour-picker-canvas">
+						<canvas id="colour-picker" width="200" height="200"></canvas>
+					</div>
+					<div class="colour-picker-details">
+						<div id="colour-picker-selected-colour-preview"></div>
+						<p id="colour-picker-selected-colour">#ffffff</p>
+						<div>
+							<button class="theme-primary window-button" id="colour-picker-select-colour">Use</button>
+							<button class="theme-background-variant-3 window-button close-window">Cancel</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- line editor -->
+			<div id="line-editor-window" class="draggable-element window">
+				<div class="draggable-element-header">
+					<span>Line editor</span>
+					<a href="javascript:void(0)" class="close-window">&times;</a>
+				</div>
+				<div class="window-body">
+					<canvas id="line-editor-canvas" style="margin: 2vh;" width="400" height="400" class="theme-background-variant-2"></canvas>
+					<div>
+							<button class="theme-primary window-button" id="new-line-point">New Point</button>
+							<button class="theme-background-variant-3 window-button" id="remove-line-point">Delete Point</button>
+						</div>
+				</div>
+			</div>
+			<!-- debug window -->
+			<div id="debug-window" class="draggable-element window">
+				<div class="draggable-element-header">
+					<span>Developer console</span>
+					<a href="javascript:void(0)" class="close-window">&times;</a>
+				</div>
+				<div class="window-body" style="width: 30vw;">
+					<div class="fixed-height">
+						<span>Show bounding boxes</span>
+						<input id="show-bounding-boxes" style="float: right;" type="checkbox">
+					</div>
+					<div class="fixed-height">
+						<span>Show render grid</span>
+						<input id="show-render-grid" style="float: right;" type="checkbox" checked>
+					</div>
+					<div class="fixed-height">
+						<span>Show CPU time breakdown</span>
+						<input id="show-cpu-time-breakdown" style="float: right;" type="checkbox">
+					</div>
+				</div>
+			</div>
+			<!-- new object window -->
+			<div id="new-object-window" class="draggable-element window">
+				<div class="draggable-element-header">
+					<span>New object</span>
+					<a href="javascript:void(0)" class="close-window">&times;</a>
+				</div>
+				<div class="window-body" style="width: 60vw;">
+					<div class="new-object-button" id="new-scene">
+						<img data-tooltip="Create and switch to a new scene" src="./src/images/crescendo-logo.png">
+						<div style="text-align: center;">Scene</div>
+					</div>
+					<div class="new-object-button" id="new-camera">
+						<img data-tooltip="Create a default camera" src="./src/images/camera-icon.png">
+						<div style="text-align: center;">Camera</div>
+					</div>
+					<div class="new-object-button" id="new-rectangle">
+						<img data-tooltip="Create a default rectangle" src="./src/images/gameobject-icon.png">
+						<div style="text-align: center;">Rectangle</div>
+					</div>
+					<div class="new-object-button" id="new-ellipse">
+						<img data-tooltip="Create a default circle" src="./src/images/circle-icon.png">
+						<div style="text-align: center;">Ellipse</div>
+					</div>
+					<div class="new-object-button" id="new-line">
+						<img data-tooltip="Create a default line" src="./src/images/line-icon.png">
+						<div style="text-align: center;">Line</div>
+					</div>
+					<div class="new-object-button" id="new-text">
+						<img data-tooltip="Create a default text element" src="./src/images/text-icon.png">
+						<div style="text-align: center;">Text</div>
+					</div>
+				</div>
+			</div>
+			<!-- new component window -->
+			<div id="add-component-window" class="draggable-element window">
+				<div class="draggable-element-header">
+					<span>Add component</span>
+					<a href="javascript:void(0)" class="close-window">&times;</a>
+				</div>
+				<div class="window-body" style="width: 45vw;">
+					<div class="new-component-button" id="new-transform">
+						<img src="./src/images/transform-icon.png">
+						<div style="text-align: center;">Transform</div>
+					</div>
+					<div class="new-component-button" id="new-mesh-renderer">
+						<img src="./src/images/mesh-renderer-icon.png">
+						<div style="text-align: center;">Mesh Renderer</div>
+					</div>
+					<div class="new-component-button" id="new-text-renderer">
+						<img src="./src/images/text-icon.png">
+						<div style="text-align: center;">Text Renderer</div>
+					</div>
+					<div class="new-component-button" id="new-line-renderer">
+						<img src="./src/images/line-icon.png">
+						<div style="text-align: center;">Line Renderer</div>
+					</div>
+					<div class="new-component-button" id="new-rectangle-rigidbody">
+						<img src="./src/images/gameobject-icon.png">
+						<div style="text-align: center;">Rectangle Rigidbody</div>
+					</div>
+					<div class="new-component-button" id="new-circle-rigidbody">
+						<img src="./src/images/circle-icon.png">
+						<div style="text-align: center;">Circle Rigidbody</div>
+					</div>
+					<div class="new-component-button" id="new-line-rigidbody">
+						<img src="./src/images/line-icon.png">
+						<div style="text-align: center;">Line Rigidbody</div>
+					</div>
+					<div class="new-component-button" id="new-behaviour-string">
+						<img src="./src/images/script-icon.png">
+						<div style="text-align: center;">Behaviour</div>
+					</div>
+				</div>
+			</div>
+			<!-- projects window -->
+			<div id="projects-window" class="draggable-element window">
+				<div class="draggable-element-header">
+					<span>My projects</span>
+					<a href="javascript:void(0)" class="close-window">&times;</a>
+				</div>
+				<div class="window-body" style="height: 400px; overflow-y: auto; width: 60vw;">
+					<div id="projects"></div>
+					<div class="new-component-button" id="new-project">
+						<img data-tooltip="Create a new project from scratch" style="filter: brightness(100);" src="./src/images/big-plus.png">
+						<div style="text-align: center;">New project</div>
+					</div>
+					<div class="new-component-button" id="from-file" onclick="document.getElementById('upload-project-file').click();">
+						<img data-tooltip="Load a project from your files" style="filter: brightness(100);" src="./src/images/load-icon.png">
+						<div style="text-align: center;">From file</div>
+						<input type="file" id="upload-project-file" style="display: none;" accept=".crescendo">
+					</div>
+				</div>
+			</div>
+			<!-- text editor window -->
+			<div id="text-editor-window" class="draggable-element window">
+				<div class="draggable-element-header">
+					<span>Text Editor</span>
+					<a href="javascript:void(0)" class="close-window">&times;</a>
+				</div>
+				<div class="window-body" style="width: 80vw; height: 350px; padding: 1vh;">
+					<textarea id="text-editor" data-edit="" value="Sample text"></textarea>
+					<div style="position: absolute; bottom: 0; left: 0; width: 100%;">
+						<button class="theme-primary window-button" id="text-editor-done">Done</button>
+						<button class="theme-background-variant-3 window-button close-window">Cancel</button>
+					</div>
+				</div>
+			</div>
+			<div id="project-settings-window" class="draggable-element window">
+				<div class="draggable-element-header">
+					<span>Project settings</span>
+					<a href="javascript:void(0)" class="close-window">&times;</a>
+				</div>
+				<div class="window-body" style="width: 30vw;">
+					<div class="fixed-height">
+						<span data-tooltip="Specifies how large the grid the physics should use, small values can increase performance, extremely small values can cause missed collisions">Physics grid size</span>
+							<input id="physics-grid-size" type="number" value="50" min="10" style="float: right;" class="short-text-area">
+						</span>
+					</div>
+					<div class="fixed-height">
+						<span>Physics engine width</span>
+							<input id="physics-width" type="number" value="5000" min="0" style="float: right;" class="short-text-area">
+						</span>
+					</div>
+					<div class="fixed-height">
+						<span>Physics engine height</span>
+							<input id="physics-height" type="number" value="5000" min="0" style="float: right;" class="short-text-area">
+						</span>
+					</div>
+					<div class="fixed-height">
+						<span data-tooltip="The gravity that will be applied to all physics objects">Global gravity</span>
+							<input id="physics-gravity" type="number" value="0.196" step="0.01" style="float: right;" class="short-text-area">
+						</span>
+					</div>
+					<div class="fixed-height">
+						<span data-tooltip="How many substeps per frame the physics has to do. Larger values lead to more accurate, slower physics">Physics iterations</span>
+							<input id="physics-iterations" type="number" value="2" min="1" max="32" style="float: right;" class="short-text-area">
+						</span>
+					</div>
+					<div class="fixed-height">
+						<span data-tooltip="How powerfully should the errors be corrected. 0 means no correction (which can cause phasing) and 1 means full correction (can cause jittering)">Physics error correction</span>
+							<input id="physics-error-correction-coefficient" type="number" value="0.5" min="0" max="1" step="0.1" style="float: right;" class="short-text-area">
+						</span>
+					</div>
+					<div class="fixed-height">
+						<span data-tooltip="The ratio between screen pixels and Crescendo units">Pixels per unit</span>
+							<input id="renderer-pixels-per-unit" type="number" value="1" min="0.1" step="0.1" style="float: right;" class="short-text-area">
+						</span>
+					</div>
+				</div>
+			</div>
+			<!-- compile window -->
+			<div id="compile-project-window" class="draggable-element window">
+				<div class="draggable-element-header">
+					<span>Export project</span>
+					<a href="javascript:void(0)" class="close-window">&times;</a>
+				</div>
+				<div class="window-body" style="width: 30vw; height: 350px; padding: 1vh;">
+					<div>Ready to export your project?</div>
+					<div data-tooltip="A zip format is used to combine all your files into 1 and make it smaller to download">Your project will come in a zip format</div>
+					<div style="position: absolute; bottom: 0; left: 0; width: 100%;">
+						<button class="theme-primary window-button" id="compile-project">Yes</button>
+						<button class="theme-background-variant-3 window-button close-window">No</button>
+					</div>
+				</div>
+			</div>
+			<!-- file viewer window -->
+			<div id="file-viewer-window" class="draggable-element window">
+				<div class="draggable-element-header">
+					<span>File viewer</span>
+					<a href="javascript:void(0)" class="close-window">&times;</a>
+				</div>
+				<div class="window-body" style="width: 50vw; height: 350px; padding: 1vh;">
+					<div id="file-view" style="height: 300px; overflow-y: auto;"></div>
+					<div style="position: absolute; bottom: 0; left: 0; width: 100%;">
+						<button class="theme-primary window-button" id="file-viewer-pick-file">Use</button>
+						<button class="theme-background-variant-3 window-button close-window">Cancel</button>
+					</div>
+				</div>
+			</div>
+			<!-- error window -->
+			<div id="error-window" class="draggable-element window">
+				<div class="draggable-element-header">
+					<span>An error occured</span>
+					<a href="javascript:void(0)" class="close-window">&times;</a>
+				</div>
+				<div class="colour-picker-grid window-body" style="width: 30vw;">
+					<div class="colour-picker-canvas">
+						<img style="height: 100%;" src="./src/images/error.png">
+					</div>
+					<div class="colour-picker-details">
+						<span>An error occurred, check the console and <a href="https://github.com/Joshua-Usi/Crescendo/issues/new/choose" target="blank">report</a> to the developers</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="context-menu">
+			<div>Delete</div>
+			<div>Clone</div>
+		</div>
+		<div id="tooltip-text">
+			If you see this, that means something wrong has occured, check the console
+		</div>
+		<!-- load JSZip -->
+		<script src="./src/scripts/libs/jszip.js"></script>
+		<!-- templates -->
+		<script src="./src/scripts/templates.js"></script>
+		<!-- handlers -->
+		<script src="./src/scripts/colourPicker.js"></script>
+		<script src="./src/scripts/lineEditor.js"></script>
+		<!-- load engine classes -->
+		<script src="./src/scripts/components.js"></script>
+		<script src="./src/scripts/engine.js"></script>
+		<script src="./src/scripts/gameObject.js"></script>
+		<script src="./src/scripts/scene.js"></script>
+		<!-- load managers -->
+		<script src="./src/scripts/cameraManager.js"></script>
+		<script src="./src/scripts/behaviourManager.js"></script>
+		<script src="./src/scripts/sceneManager.js"></script>
+		<script src="./src/scripts/audioManager.js"></script>
+		<!-- input classes -->
+		<script src="./src/scripts/inputs.js"></script>
+		<script src="./src/scripts/mouseInputs.js"></script>
+		<script src="./src/scripts/keyInputs.js"></script>
+		<!-- physics -->
+		<script src="./src/scripts/potatoPhysicsEngine.js"></script>
+		<!-- rendering -->
+		<script src="./src/scripts/renderer.js"></script>
+		<!-- load utility classes -->
+		<script src="./src/scripts/utils.js"></script>
+		<script src="./src/scripts/vector.js"></script>
+		<script src="./src/scripts/console.js"></script>
+		<script src="./src/scripts/defaultOptions.js"></script>
+		<!-- load gui -->
+		<script src="./src/scripts/project.js"></script>
+		<script src="./src/scripts/componentEditorUI.js"></script>
+		<script src="./src/scripts/hierarchyUI.js"></script>
+		<script src="./src/scripts/crescendoGUI.js"></script>
+		<script src="./src/scripts/fileUI.js"></script>
+		<!-- files and file handling -->
+		<script src="./src/scripts/fileManager.js"></script>
+		<script src="./src/scripts/virtualFileSystem.js"></script>
+		<!-- compiler and downloads -->
+		<script src="./src/scripts/compiler.js"></script>
+		<script src="./src/scripts/downloader.js"></script>
+		<script src="./src/scripts/compileData.js"></script>
+		<!-- database (IndexedDB) -->
+		<script src="./src/scripts/database.js"></script>
+		<!-- application -->
+		<script src="./main.js"></script>
+	</body>
+</html>

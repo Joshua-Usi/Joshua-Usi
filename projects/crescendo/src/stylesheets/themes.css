@@ -1,0 +1,46 @@
+.theme-primary {
+	background: #1d56e6;
+}
+.theme-primary-variant {
+	background: #1dbae6;
+}
+.theme-text {
+	color: #e4ecef;
+}
+.theme-text-secondary {
+	color: #c4d5dc;
+}
+.theme-background {
+	background: #171717;
+}
+.theme-background-variant {
+	background: #313131;
+}
+.theme-background-variant-2 {
+	background: #4b4b4b;
+}
+.theme-background-variant-3 {
+	background: #656565;
+}
+.theme-background-variant-4 {
+	background: #7f7f7f;
+}
+.theme-background-variant-5 {
+	background: #999999;
+}
+.theme-error {
+	color: #da0037;
+	background: #da003711;
+}
+.theme-warning {
+	color: #eeaa00;
+	background: #eeaa0011;
+}
+.theme-success {
+	color: #009944;
+	background: #00994411;
+}
+.theme-info {
+	color: #aaaaaa;
+	background: #aaaaaa11;
+}

@@ -24,17 +24,17 @@ class Project {
 
 let projects = [
 	new Project("osw!", "A browser based osu! client written from the ground up", "./src/imgs/osw.png", "https://github.com/Joshua-Usi/osw"),
-	new Project("Crescendo", "A 2D proof-of-concept game engine written in 8 weeks for HSC major work", "./src/imgs/crescendo-logo.png", "https://github.com/Joshua-Usi/Crescendo"),
+	new Project("Crescendo", "A 2D proof-of-concept game engine written in 8 weeks for HSC major work", "./src/imgs/crescendo-logo.png", "./projects/crescendo/index.html"),
 	new Project("Kahoot speed keys", "A chrome browser extension designed for quality of life use in Kahoot.it games", "./src/imgs/kahoot-speed-keys.png", "https://github.com/Joshua-Usi/Kahoot-Speed-Keys"),
-	new Project("Exam paper generator", "Generates exam papers that can be saved as PDFs from a question bank", "./src/imgs/exam-paper-generator.png", "https://github.com/Joshua-Usi/Exam-paper-generator"),
+	new Project("Exam paper generator", "Generates exam papers that can be saved as PDFs from a question bank", "./src/imgs/exam-paper-generator.png", "./projects/exam-paper-generator/index.html"),
 	new Project("Crescendo3D (unpublished)", "A 3D rendering framework / engine in development", "./src/imgs/crescendo-logo.png", ""),
-	new Project("Physics engine V8 (unpublished)", "#8. A basic hyper-optimised physics engine using webgl. Employs frustum culling and broadphase grid sorting to support well over 5000 objects", "./src/imgs/physics-engine.png", "./projects/hyper-optimised-physics-engine/index.html"),
+	new Project("Physics engine V8", "#8. A basic hyper-optimised physics engine using webgl. Employs frustum culling and broadphase grid sorting to support well over 5000 objects", "./src/imgs/physics-engine.png", "./projects/hyper-optimised-physics-engine/index.html"),
 	new Project("Xi Jinping (unpublished)", "A discord.py bot that manages swearing and banned words in discord servers using a credit-based system", "./src/imgs/xi-jinping.png", ""),
 	new Project("Fishing bot (unpublished)", "A discord.py bot that uses modern slash commands for chill fishing with friends", "./src/imgs/fishing-bot.png", ""),
 	new Project("Project Murder (unpublished)", "A python program that manages participants in a game of targets and assassinations that automatically sends emails containing their targets using smtp", "./src/imgs/profile-picture.png", ""),
 	new Project("P6.js (unpublished)", "Inspired by P5.js, It was the first ever framework I built. Includes an extendable Plugin system", "./src/imgs/p6.png", ""),
 	new Project("screensavers (unpublished)", "A set of javascript screensavers to leave your computer on", "./src/imgs/starfield.png", ""),
-	new Project("Inertia GUI (unpublished)", "A solver for the Inertia problem that includes realtime solving and path discarding", "./src/imgs/inertia-astronaut.png", "./projects/inertia/index.html"),
+	new Project("Inertia GUI", "A solver for the Inertia problem that includes realtime solving and path discarding", "./src/imgs/inertia-astronaut.png", "./projects/inertia/index.html"),
 	new Project("Mandelbrot Generator", "A generator for beautiful mandelbrot sets. Switches between GPU and CPU rendering if required. Highly optimised", "./src/imgs/mandelbrot.png", "./projects/mandelbrot/index.html"),
 	new Project("Obama cube generator", "Base on a popular meme a long time ago. Generate rotating cubes using images or videos and allows you to save them as a video file", "./src/imgs/obama-cube.png", "./projects/obama-cube-generator/index.html"),
 ];

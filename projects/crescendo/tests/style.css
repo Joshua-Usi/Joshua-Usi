@@ -1,0 +1,23 @@
+* {
+	font-family: Verdana;
+}
+
+body {
+	overflow-x: hidden;
+}
+
+table {
+	border-collapse: collapse;
+	width: 100%;
+}
+
+td, th {
+	width: 20%;
+	text-align: center;
+	border: 2px solid #ccc;
+	padding: 8px 8px;
+}
+
+tr:nth-child(even) {
+	background-color: #ddd;
+}
