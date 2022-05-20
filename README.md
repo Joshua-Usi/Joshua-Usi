@@ -1,4 +1,4 @@
-# joshua-usi
- Resume and portfolio page
+# Joshua-Usi
+## Avid Software engineer and Reinventor of wheels
 
-Accessible [here](https://joshua-usi.github.io/Joshua-Usi/)
+https://joshua-usi.github.io/Joshua-Usi/
