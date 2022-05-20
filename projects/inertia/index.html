@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Algorithm 2 - Inertia - GUI</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	</style>
+</head>
+<body>
+	<div style="width: 20vw; height: 100vh; background: #0006;">
+		<h1 style="margin: 0; text-align: center;">Inertia</h1>
+		<p class="ui-text">Auto solve</p>
+		<input type="checkbox" class="checkbox" name="test-case" id="solve-automatically">
+		<br>
+		<p class="ui-text">Set wall type:</p>
+		<br>
+		<p class="ui-text">Horizontal</p>
+		<input type="radio" class="checkbox" name="wall-type" id="x-walls" checked>
+		<br>
+		<p class="ui-text">Vertical</p>
+		<input type="radio" class="checkbox" name="wall-type" id="y-walls">
+		<br>
+		<p class="ui-text">Set grid size:</p>
+		<br>
+		<p class="ui-text">Width</p>
+		<input type="range" id="x-length" class="slider" min="1" max="10" value="5">
+		<br>
+		<p class="ui-text">Height</p>	
+		<input type="range" id="y-length" class="slider" min="1" max="8" value="5">
+		<br>
+		<p class="ui-text">Start position:</p>
+		<br>
+		<p class="ui-text">X position</p>
+		<input type="range" id="start-position-x" class="slider" min="" max="4" value="0">
+		<br>
+		<p class="ui-text">Y position</p>	
+		<input type="range" id="start-position-y" class="slider" min="0" max="4" value="0">
+		<br>
+		<p class="ui-text">End position:</p>
+		<br>
+		<p class="ui-text">X position</p>
+		<input type="range" id="end-position-x" class="slider" min="" max="4" value="4">
+		<br>
+		<p class="ui-text">Y position</p>	
+		<input type="range" id="end-position-y" class="slider" min="0" max="4" value="4">
+		<br>
+		<p class="ui-text">Use test cases:</p>
+		<br>
+		<p class="ui-text">Case 1</p>
+		<input type="radio" class="checkbox" name="test-case" id="test-case-1">
+		<br>
+		<p class="ui-text">Case 2</p>
+		<input type="radio" class="checkbox" name="test-case" id="test-case-2">
+		<br>
+		<p class="ui-text">Case 3</p>
+		<input type="radio" class="checkbox" name="test-case" id="test-case-3">
+		<br>
+		<button id="solve-inertia-button" class="button">Solve</button>
+		<button id="reset-grid" class="button" style="background-color: #503030;">Reset grid</button>
+		<br>
+		<p style="margin: 0.5vh;" id="solution-move-count">Minimum move count: </p>
+		<p style="margin: 0.5vh;" id="solution-moves">Solution moves: </p>
+	</div>
+	<p id="message"></p>
+	<canvas id="drawing-canvas"></canvas>
+	<script type="text/javascript" src="./utils.js"></script>
+	<script type="text/javascript" src="./testcases.js"></script>
+	<script type="text/javascript" src="./algorithm.js"></script>
+	<script type="text/javascript" src="./main.js"></script>
+
+</body>
+</html>

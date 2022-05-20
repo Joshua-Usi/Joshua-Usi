@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Mandelbrot generator</title>
+	<style type="text/css">
+		body {
+			background: #222;
+			margin: 0;
+			overflow: hidden;
+			color: #fff;
+			font-family: Arial, Helvetica, Comic Sans;
+		}
+		canvas {
+			border: 1px solid black;
+			position: absolute;
+			transform: translate(-50%, -50%);
+		}
+		#canvas-container {
+			position: absolute;
+			left: 50vw;
+			top: 50vh;
+		}
+		div p {
+			display: inline-block;
+			width: 20%;
+			float: left;
+			text-align: center;
+			/*border-collapse: collapse;*/
+		}
+		#background {
+			position: absolute; width: 100vw; height: 100vw;
+			z-index: -1000;
+			filter: blur(8px) brightness(0.25);
+			transform: translate(0, -33.333vw);
+		}
+	</style>
+</head>
+<body id="body">
+	<img id="background" src="#">
+	<div style="display: block;">
+		<p id="frame-rate">0 fps</p>
+		<p id="zoom-scale">scale: 1.00 ⋅ 10<sup>0</sup></p>
+		<p id="iteration-count">0 iterations</p>
+		<p id="coordinates">coords: 0, 0</p>
+		<p id="using">using none</p>
+	</div>
+	<div id="canvas-container">
+		<canvas id="cpu-canvas"></canvas>
+	</div>
+	<p style="position: absolute; bottom: 5vh; text-align: center; width: 100%;">move around using WASD, scroll to zoom</p>
+	<script src="./gpu-browser.js"></script>
+	<script type="module" src="./main.js"></script>
+
+</body>
+</html>

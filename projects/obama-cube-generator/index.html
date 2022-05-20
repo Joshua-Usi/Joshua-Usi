@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>WebGL</title>
+	<style type="text/css">
+		body {
+			margin: 0;
+			overflow: hidden;
+		}
+		#canvas, #canvas-2 {
+			position: absolute;
+		}
+	</style>
+</head>
+<body id="body">
+	<span style="display: inline-block; width: 15%">
+	<span>
+		<label name=slider>rotate x</label>
+		<input type="range" name="slider" id="rotation-speed-x" min=1 max=60 value=1>
+	</span>
+	<span>
+		<label name=slider1>rotate y</label>
+		<input type="range" name="slider1" id="rotation-speed-y" min=0 max=60 value=0>
+	</span>
+	<span>
+		<label name=slider2>rotate z</label>
+		<input type="range" name="slider2" id="rotation-speed-z" min=0 max=60 value=0>
+	</span>
+	<input type="file" id="upload-image">
+	<button id="start-recording">record</button>
+</span>
+	<canvas id="canvas"></canvas>
+	<canvas id="canvas-2"></canvas>
+	<script type="text/javascript" src="./src/gl-lib/gl-matrix.js"></script>
+	<script type="text/javascript" src="./CanvasRecorder.js"></script>
+	<script type="module" src="./main.js"></script>
+</body>
+</html>

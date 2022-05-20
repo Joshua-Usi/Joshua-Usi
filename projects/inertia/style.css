@@ -1,0 +1,105 @@
+body {
+	background: #0d0d0d;
+	background-image: url("./images/inertia-background.png"); 
+	background-size: 100vw;
+	color: #e4ecef;
+	font-family: Helvetica;
+	margin: 0;
+	font-size: 2.25vh;
+}
+
+#drawing-canvas {
+	position: absolute;
+}
+
+/* slider css */
+.slider::-webkit-slider-thumb {
+	width: 20%;
+	height: 2.25vh;
+	border-radius: 1vw;
+
+	background: #707070;
+
+	outline: none;
+	-webkit-appearance: none;
+	transition: background border-color;
+	transition-duration: 0.2s;
+}
+
+.slider::-webkit-slider-thumb:hover {
+	background: #909090;
+}
+
+.slider::-webkit-slider-thumb:hover:active {
+	background: #e4ecef;
+}
+
+.slider {
+	height: 2.25vh;
+	width: 10vw;
+	border-radius: 2.5vh;
+	position: relative;
+	top: 0.625vh;
+
+	background: #404040;
+
+	-webkit-appearance: none;
+	outline: none;
+}
+
+/* checkbox css*/
+.checkbox {
+	margin: 0;
+	width: 2vw;
+	height: 2.25vh;
+	border-radius: 1vw;
+	border: 0.4vh solid #909090;
+	position: relative;
+	top: 0.25vh;
+
+	background-color: #0d0d0d;
+
+	-webkit-appearance: none;
+	outline: none;
+	transition: border-color background-color;
+	transition-duration: 0.2s;
+}
+
+.checkbox:checked {
+	background-color: #707070;
+}
+
+.button {
+	width: 90%;
+	height: calc(3vh + 1em);
+	margin: 0.5vh 5%;
+	border: none;
+	border-radius: 1.5vh;
+	background-size: 25vw;
+
+	background-color: #303030;
+	color: #e4ecef;
+
+	text-align: center;
+	font-family: inherit;
+	font-size: inherit;
+
+	outline: none;
+}
+
+.ui-text {
+	width: 8.5vw;
+	margin: 0.5vh;
+	display: inline-block;
+	text-align: right;
+}
+
+#message {
+	font-size: 3vh;
+	position: absolute;
+	top: 0;
+	left: 0;
+	margin: 0;
+	width: 100%;
+	text-align: center;
+}
