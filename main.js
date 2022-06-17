@@ -31,7 +31,7 @@ let projects = [
 	new Project("Physics engine V8", "#8. A basic hyper-optimised physics engine using webgl. Employs frustum culling and broadphase grid sorting to support well over 5000 objects", "./src/imgs/physics-engine.png", "./projects/hyper-optimised-physics-engine/index.html"),
 	new Project("Xi Jinping (unpublished)", "A discord.py bot that manages swearing and banned words in discord servers using a credit-based system", "./src/imgs/xi-jinping.png", ""),
 	new Project("Fishing bot (unpublished)", "A discord.py bot that uses modern slash commands for chill fishing with friends", "./src/imgs/fishing-bot.png", ""),
-	new Project("Project Murder (unpublished)", "A python program that manages participants in a game of targets and assassinations that automatically sends emails containing their targets using smtp", "./src/imgs/profile-picture.png", ""),
+	new Project("Project Murder (unpublished)", "A python program that manages participants in a game of targets and assassinations that automatically sends emails containing their targets using smtp", "./src/imgs/crescendo-logo.png", ""),
 	new Project("P6.js (unpublished)", "Inspired by P5.js, It was the first ever framework I built. Includes an extendable Plugin system", "./src/imgs/p6.png", ""),
 	new Project("screensavers (unpublished)", "A set of javascript screensavers to leave your computer on", "./src/imgs/starfield.png", ""),
 	new Project("Inertia GUI", "A solver for the Inertia problem that includes realtime solving and path discarding", "./src/imgs/inertia-astronaut.png", "./projects/inertia/index.html"),
