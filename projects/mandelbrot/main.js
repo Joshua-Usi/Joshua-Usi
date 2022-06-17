@@ -54,6 +54,7 @@ function mandelbrotIterate(z0a, z0b, maxIterations) {
 	let b = z0b;
 	let n = 0;
 	while (a ** 2 + b ** 2 < 2 ** 2 && n < maxIterations) {
+		/* z^2 + c */
 		let aa = (a + b) * (a - b);
 		let bb = 2 * a * b;
 		a = aa + z0a;

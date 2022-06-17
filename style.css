@@ -112,3 +112,8 @@ ul.dashed > li:before {
 	color: #e4ecef;
 	font-weight: bolder;
 }
+
+.title-bar-text {
+	color: #e4ecef;
+	font-size: 5vh;
+}
