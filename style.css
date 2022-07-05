@@ -2,10 +2,11 @@ body {
 	font-family: Arial, Helvetica;
 	margin: 0;
 	overflow-x: hidden;
+	overflow-y: hidden;
 }
 
 .redirect-logo {
-	height: 5vh;
+	height: 4vh;
 	padding: 0 0.5vw 0 0.5vw;
 }
 
@@ -115,5 +116,5 @@ ul.dashed > li:before {
 
 .title-bar-text {
 	color: #e4ecef;
-	font-size: 5vh;
+	font-size: 4vh;
 }
