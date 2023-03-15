@@ -1,5 +1,5 @@
 <h1 align="center">Hi, I'm Joshua Usi</h1>
-<h3 align="center">An avid programmer, Tech enthusiast, Performance addict and dedicated game engine developer</h3>
+<h3 align="center">An avid programmer, performance addict and hobbyist game engine developer</h3>
 
 <p align="left"> <img src="https://komarev.com/ghpvc/?username=joshua-usi&label=Profile%20views&color=0e75b6&style=flat" alt="joshua-usi" /> </p>
 
